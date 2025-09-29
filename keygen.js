@@ -4,5 +4,5 @@ function encode(id, dur) {
   return Buffer.from(raw).toString("base64");
 }
 
-const key = encode("7879830646", 1);
+const key = encode("7879830646", 7);
 console.log(key);

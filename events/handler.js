@@ -22,11 +22,21 @@ import disconnect from '../utils/disconnect.js';
 
 import configManager from '../utils/manageConfigs.js';
 
+import { getCreds } from '../credits.js';
+
+import { PUB } from '../config.js';
+
 function isPremium(userId) {
 
   const data = JSON.parse(fs.readFileSync('./prem.json', 'utf-8'));
 
-  return data.users.includes(userId.toString());
+  const ispub = PUB;
+
+  const isprem = data.users.includes(userId.toString());
+
+  const state = ispub || isprem;
+
+  return  state;
 }
 
 function addPremium(userId) {
@@ -39,6 +49,15 @@ function addPremium(userId) {
 
     fs.writeFileSync('./prem.json', JSON.stringify(data, null, 2));
   }
+}
+
+function encode(id, dur){
+
+  const expiry = Date.now() + dur * 24 * 60 * 60 * 1000;
+
+  const raw = `${id}|${expiry}`;
+
+  return Buffer.from(raw).toString("base64");
 }
 
 function removePremium(userId) {
@@ -147,29 +166,9 @@ export function messageHandler(bot) {
 
   });
 
-  bot.onText(/\/start_report/, async (msg) => {
-
-    if (msg.from.id.toString() !== OWNER_ID) return;
-
-    bot.sendMessage(msg.chat.id, '✅ Report triggered.');
-
-    configManager.config.users["0"].report_status = true;
-
-  });
-
-  bot.onText(/\/stop_report/, async (msg) => {
-
-    if (msg.from.id.toString() !== OWNER_ID) return;
-
-    bot.sendMessage(msg.chat.id, '✅ Report stop.');
-
-    configManager.config.users["0"].report_status = false;
-
-  });
-
   bot.onText(/\/addprem(?: (.+))?/, async (msg, match) => {
 
-    if (msg.from.id.toString() !== OWNER_ID) return;
+    if (msg.from.id.toString() !== OWNER_ID) bot.sendMessage(msg.chat.id, "❌ Skids lol.");
 
     const targetId = match[1];
 
@@ -183,7 +182,7 @@ export function messageHandler(bot) {
 
   bot.onText(/\/delprem(?: (.+))?/, async (msg, match) => {
 
-    if (msg.from.id.toString() !== OWNER_ID) return;
+    if (msg.from.id.toString() !== OWNER_ID) bot.sendMessage(msg.chat.id, "❌ Skids lol.");
 
     const targetId = match[1];
 
@@ -194,5 +193,45 @@ export function messageHandler(bot) {
     bot.sendMessage(msg.chat.id, `✅ User ${targetId} removed from prem list successfully.`);
 
   });
+
+bot.onText(/\/keygen(?: (.+))?/, async (msg, match) => {
+
+  const creds = getCreds();
+
+  const su = creds.telegram_id
+
+  if (msg.from.id.toString() !== su) return bot.sendMessage(msg.chat.id, "❌ Skids lol.");
+
+  // match[1] contains "<duration> <userId>"
+  if (!match[1]) {
+
+    return bot.sendMessage(msg.chat.id, "❌ Usage: /keygen <duration_days> <userId>");
+
+  }
+
+  const args = match[1].trim().split(/\s+/); // split by spaces
+
+  const dur = Number(args[0]);
+
+  const id = args[1];
+
+  if (!id || isNaN(dur)) {
+
+    return bot.sendMessage(msg.chat.id, "❌ Usage: /keygen <duration_days> <userId>");
+  }
+
+  const code = encode(id, dur);
+
+  bot.sendMessage(
+
+    msg.chat.id,
+    `✅ The code for user ${id} is:\n\`\`\`${code}\`\`\`\n\n🕒 It will last for ${dur} day(s).`,
+
+    { parse_mode: "Markdown" }
+
+  );
+
+});
+
 
 }

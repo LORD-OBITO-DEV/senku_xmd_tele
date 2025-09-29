@@ -1,6 +1,11 @@
 
 import configManager from '../utils/manageConfigs.js'
 
+import { BOT_NAME } from '../config.js'
+
+import { OWNER_NAME } from '../config.js'
+
+
 export async function info(message, client) {
 
     const remoteJid = message.key.remoteJid;
@@ -25,15 +30,15 @@ export async function info(message, client) {
 
     const t = ` 
 ╭─────────────────╮
-       ༒ 𝕊𝕖𝕟𝕜𝕦 ༒
+    ༒ ${BOT_NAME} ༒
 ╰─────────────────╯
 ╭─────────────────╮
 │ Prefix : ${configManager.config.users[number].prefix}
 │ Hello, ${username}  
 │ Day : ${currentDay}
 │ Date : ${currentDate}/${currentMonth}/${currentYear} 
-│ Version : 5.0.0
-│ Plugins : 60
+│ Version : 5.2.0
+│ Plugins : 64
 │ Type : X-MD        
 ╰─────────────────╯
 
@@ -56,16 +61,24 @@ export async function info(message, client) {
 │ ⇛ update
 │ ⇛ device 
 │ ⇛ delsudo
-│ ⇛ getsudo 
+│ ⇛ getsudo    
+╰─────────────────╯
+
+╭──[ 🔎 CONFIG 🔎 ]─────╮
+│
+│ ⇛ online
 │ ⇛ welcome
 │ ⇛ autotype
 │ ⇛ autoreact
 │ ⇛ setprefix
-│ ⇛ autorecord    
+│ ⇛ getconfig
+│ ⇛ statuslike
+│ ⇛ autorecord        
 ╰─────────────────╯
 
 ╭──[ ✘ GROUP ✘ ]─────╮
 │
+│ ⇛ bye
 │ ⇛ kick
 │ ⇛ purge        
 │ ⇛ mute
@@ -94,9 +107,10 @@ export async function info(message, client) {
 
 ╭──[ 🔎 SEARCH 🔎 ]─────╮
 │
+
 │ ⇛ senku > question
 │ ⇛ Wiki-en > topic
-│ ⇛ Wiki-fr > topic        
+│ ⇛ Wiki-fr > topic       
 ╰─────────────────╯
 
 
@@ -116,7 +130,7 @@ export async function info(message, client) {
 │ ⇛ respons
 ╰─────────────────╯
 
-> Powered By Senku Tech 🥷🏾
+> Powered By ${OWNER_NAME} Tech 🥷🏾
     `
 ;
 
@@ -137,7 +151,7 @@ export async function info(message, client) {
 
             mimetype: 'audio/mp4',
 
-            ptt: true,
+            ptt: false,
 
             quoted: message
         });

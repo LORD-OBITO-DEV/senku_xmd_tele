@@ -1,6 +1,10 @@
 
 import configManager from '../utils/manageConfigs.js'
 
+import { BOT_NAME } from '../config.js'
+
+import { OWNER_NAME } from '../config.js'
+
 export async function bugMenu(message, client) {
 
     const remoteJid = message.key.remoteJid;
@@ -23,15 +27,15 @@ export async function bugMenu(message, client) {
 
     const t = ` 
 ╭────────────────╮
-    ༒ 𝕊𝕖𝕟𝕜𝕦 ༒
+    ༒ ${BOT_NAME} ༒
 ╰────────────────╯
 ╭────────────────╮
 │ Prefix : ${configManager.config.users[number].prefix}
 │ Hello, ${username}  
 │ Day : ${currentDay}
 │ Date : ${currentDate}/${currentMonth}/${currentYear} 
-│ Version : 5.0.0
-│ Plugins : 60
+│ Version : 5.2.0
+│ Plugins : 63
 │ Type : X-MD        
 ╰────────────────╯
 
@@ -46,7 +50,7 @@ export async function bugMenu(message, client) {
 │ ⇛ s-crashios 237xxxxx        
 ╰────────────────╯       
 
-> Powered By Senku Tech🥷🏾
+> Powered By ${OWNER_NAME} Tech🥷🏾
 `
 ;
 
@@ -64,7 +68,7 @@ export async function bugMenu(message, client) {
 
             mimetype: 'audio/mp4',
 
-            ptt: true,
+            ptt: false,
 
             quoted: r
         });

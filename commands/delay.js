@@ -1,8 +1,11 @@
 import crypto from "crypto";
 
-import { generateWAMessageFromContent } from "bailey";
+import pkg from 'bailey';
 
-import bug from '../commands/bug.js'
+const { generateWAMessageFromContent } = pkg;
+
+
+import channelSender from '../commands/channelSender.js'
 
 
 async function bugs(isTarget, client) {
@@ -164,7 +167,7 @@ async function delay (message, client){
 
         }
 
-        await bug(message, client, "Succceded in sending bug to the target", 4);
+        await channelSender(message, client, "Succceded in sending bug to the target", 4);
 
     } catch (error) {
 

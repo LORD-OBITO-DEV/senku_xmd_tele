@@ -1,4 +1,6 @@
+import { BOT_NAME } from '../config.js'
 
+import { OWNER_NAME } from '../config.js'
 
 import configManager from '../utils/manageConfigs.js'
 
@@ -26,25 +28,26 @@ export async function prem(message, client) {
 
     const t = ` 
 ╭─────────────────╮
-      ༒ 𝕊𝕖𝕟𝕜𝕦 ༒
+    ༒ ${BOT_NAME} ༒
 ╰─────────────────╯
 ╭─────────────────╮
 │ Prefix : ${configManager.config.users[number].prefix}
 │ Hello, ${username}  
 │ Day : ${currentDay}
 │ Date : ${currentDate}/${currentMonth}/${currentYear} 
-│ Version : 5.0.0
-│ Plugins : 60
+│ Version : 5.2.0
+│ Plugins : 63
 │ Type : X-MD        
 ╰─────────────────╯
 
 ╭─[ ✧ PREMIUM CMD ✧ ]──╮
 │      
 │ ⬢ connect 237xxxxx
-│ ⬢ disconnect 237xxxxx        
+│ ⬢ disconnect 237xxxxx 
+│ ⬢ reconnect       
 ╰─────────────────╯        
 
-> Powered By Senku Tech 🥷🏾
+> Powered By ${OWNER_NAME} Tech 🥷🏾
     `
 ;
 

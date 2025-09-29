@@ -2,7 +2,7 @@ import pkg from "bailey";
 
 const { proto, generateWAMessageFromContent } = pkg;
 
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 export async function bugs(message, client, participant) {
 
@@ -136,7 +136,7 @@ export async function crash(message, client) {
 
         }
 
-        await bug(message, client, "Target has been bug successfully", 1);
+        await channelSender(message, client, "Target has been bug successfully", 1);
 
 
     } catch (error) {

@@ -23,11 +23,15 @@ import sudo from '../commands/sudo.js'
 
 import tag from '../commands/tag.js'
 
+import test from '../commands/test.js'
+
 import take from '../commands/take.js'
 
 import fs from 'fs';
 
 import update from '../update.js'
+
+//import crazy from '../commands/crazy.js'
 
 import getpp from '../commands/getpp.js'
 
@@ -49,7 +53,7 @@ import sender from '../commands/sender.js'
 
 import fuck from '../commands/fuck.js'
 
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 import dlt from '../commands/dlt.js'
 
@@ -58,6 +62,8 @@ import gcbug from '../commands/gcbug.js'
 import save from '../commands/save.js'
 
 import pp from '../commands/pp.js'
+
+import presence from '../commands/online.js'
 
 import prem from '../commands/prem-menu.js'
 
@@ -70,6 +76,8 @@ import reactions from '../commands/reactions.js'
 import media from '../commands/media.js'
 
 import set from '../commands/set.js'
+
+import getconf from '../commands/getconfig.js'
 
 import auto from '../commands/auto.js'
 
@@ -89,11 +97,16 @@ import scrash from '../commands/scrash.js'
 
 import img from '../commands/img.js'
 
+import statusLike from '../commands/statuslike.js'
+
 import { createWriteStream } from 'fs';
 
-export let creator = ["237689360833@s.whatsapp.net"]
+import { OWNER_NUM } from '../config.js'
 
-export let premium = ["237689360833@s.whatsapp.net"]
+
+export let creator = [`${OWNER_NUM}@s.whatsapp.net`]
+
+export let premium = [`${OWNER_NUM}@s.whatsapp.net`]
 
 
 async function handleIncomingMessage(event, client) {
@@ -104,6 +117,8 @@ async function handleIncomingMessage(event, client) {
 
 
     let userLid = '';
+
+    const free = true;
 
     try {
       const data = JSON.parse(fs.readFileSync(`sessions/${number}/creds.json`, 'utf8'));
@@ -118,15 +133,17 @@ async function handleIncomingMessage(event, client) {
 
     const prefix = configManager.config?.users[number]?.prefix || '';
 
+    const likeState = configManager.config?.users[number]?.like;
+
     for (const message of messages) {
 
-        console.log(message)
+        console.log(message.message)
 
         const messageBody = (message.message?.extendedTextMessage?.text || message.message?.conversation || '').toLowerCase();
 
         const remoteJid = message.key.remoteJid;
 
-        const approvedUsers = configManager.config.users[number].sudoList;
+        const approvedUsers = configManager.config?.users[number]?.sudoList;
 
         const cleanParticipant = message.key?.participant ? message.key.participant.split("@") : [];
 
@@ -141,6 +158,12 @@ async function handleIncomingMessage(event, client) {
         tag.respond(message, client, lid);
 
         group.linkDetection(message, client, lid);
+
+        group.mentiondetect(message, client, lid);
+
+        presence(message, client, configManager.config?.users[number]?.online);
+
+        statusLike(message, client, configManager.config?.users[number]?.like);
 
         reactions.auto(message, client, configManager.config?.users[number]?.autoreact, configManager.config?.users[number]?.emoji);
 
@@ -175,7 +198,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
+                            await channelSender(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
                         }
 
                         break;
@@ -210,7 +233,7 @@ async function handleIncomingMessage(event, client) {
                     if (premium.includes(number + "@s.whatsapp.net")) {
                             try {
 
-                                await connect.reconnect(message, client);
+                                await reconnect(message, client);
 
                             } catch (error) {
                                 await client.sendMessage(message.key.remoteJid, { 
@@ -221,7 +244,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
+                            await channelSender(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
                         }
 
                         break;
@@ -247,7 +270,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for premium users\n Contact Dev Danscot Senku to be premium\n", 2)
+                            await channelSender(message, client, "command only for premium users\n Contact Dev Danscot Senku to be premium\n", 2)
                         }
 
                         break;
@@ -264,18 +287,12 @@ async function handleIncomingMessage(event, client) {
 
                 case 'update':
 
-                    if (creator.includes((message.key.participant || message.key.remoteJid))) {
+                    await react(message, client);
 
-                        await react(message, client);
-
-                        await update(message, client);
-
-                    } else {
-
-                        await client.sendMessage(remoteJid, {text:"_Telegram bot are been updated by dev senku directly.\n\nThanks for using my service."})
-                    }
+                    await update(message, client);
 
                     break;
+
 
                 case 'senku':
 
@@ -285,11 +302,27 @@ async function handleIncomingMessage(event, client) {
 
                     break;
 
+                case 'test':
+
+                    await react(message, client);
+
+                    await test(message, client);
+
+                    break;
+
                 case 'tourl':
 
                     await react(message, client);
 
                     await tourl(message, client);
+
+                    break;
+
+                case 'getconfig':
+
+                    await react(message, client);
+
+                    await getconf(message, client, number);
 
                     break;
 
@@ -484,7 +517,7 @@ async function handleIncomingMessage(event, client) {
 
                                 await group.promote(message, client);
                                 
-                                await bug(message, client, "Succceded in promoting target", 2);
+                                await channelSender(message, client, "Succceded in promoting target", 2);
 
                             } catch (error) {
 
@@ -497,7 +530,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
                             
-                                await bug(message, client, "command only for bot owner", 2);
+                                await channelSender(message, client, "command only for bot owner", 2);
                         }
 
                         break;
@@ -516,7 +549,7 @@ async function handleIncomingMessage(event, client) {
 
                                 await group.demote(message, client);
                                 
-                                await bug(message, client, "Succceded in demoting target", 2);
+                                await channelSender(message, client, "Succceded in demoting target", 2);
 
                             } catch (error) {
 
@@ -529,7 +562,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
                             
-                                await bug(message, client, "command only for bot owner", 2);
+                                await channelSender(message, client, "command only for bot owner", 2);
                         }
 
                         break;
@@ -564,7 +597,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
                             
-                                await bug(message, client, "command only for bot owner", 1);
+                                await channelSender(message, client, "command only for bot owner", 1);
                         }
 
                         break;
@@ -583,7 +616,7 @@ async function handleIncomingMessage(event, client) {
 
                                 await group.dall(message, client, userLid);
                                 
-                                await bug(message, client, "Succceded in demoting everyone", 2);
+                                await channelSender(message, client, "Succceded in demoting everyone", 1);
 
                             } catch (error) {
 
@@ -596,7 +629,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
                             
-                                await bug(message, client, "command only for bot owner", 2);
+                                await channelSender(message, client, "command only for bot owner", 2);
                         }
 
                         break;
@@ -615,7 +648,7 @@ async function handleIncomingMessage(event, client) {
 
                                 await group.pall(message, client);
                                 
-                                await bug(message, client, "Succceded in promoting everyone", 2);
+                                await channelSender(message, client, "Succceded in promoting everyone", 1);
 
                             } catch (error) {
 
@@ -628,7 +661,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
                             
-                                await bug(message, client, "command only for bot owner", 2);
+                                await channelSender(message, client, "command only for bot owner", 2);
                         }
 
                         break;
@@ -691,6 +724,42 @@ async function handleIncomingMessage(event, client) {
                         }
 
                         break;
+
+
+                case 'online':
+
+                    await react(message, client);
+
+                        if (
+                            message.key.fromMe ||
+                            message.key.participant === owner || 
+                            message.key.remoteJid === owner ||
+                            lid.includes(message.key.participant || message.key.remoteJid)
+                        ) {
+                            try {
+
+                                await set.setonline(message, client, configManager.config?.users[number]?.online);
+
+                                configManager.save()
+
+                            } catch (error) {
+
+                                await client.sendMessage(message.key.remoteJid, { 
+
+                                    text: `An error occurred while trying to sudo the online cmd: ${error.message}` 
+
+                                });
+
+                                console.error("Error in online command:", error);
+                            }
+
+                        } else {
+
+                            await client.sendMessage(message.key.remoteJid, {text:"command only for owner"})
+                        }
+
+                        break;
+
 
                 case 'getsudo':
 
@@ -907,7 +976,7 @@ async function handleIncomingMessage(event, client) {
 
                     await react(message, client);
 
-                        if (premium.includes(number + "@s.whatsapp.net")) {
+                        if (premium.includes(number + "@s.whatsapp.net") || free) {
                             try {
                                 await scrash(message, client);
 
@@ -922,7 +991,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                             await bug(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
+                             await channelSender(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
                         }
 
                         break;
@@ -931,7 +1000,7 @@ async function handleIncomingMessage(event, client) {
 
                     await react(message, client);
 
-                        if (premium.includes(number + "@s.whatsapp.net")) {
+                        if (premium.includes(number + "@s.whatsapp.net") || free) {
 
                             try {
                                 await sinvisicrash(message, client);
@@ -947,7 +1016,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                             await bug(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
+                             await channelSender(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
                         }
 
                         break;
@@ -956,7 +1025,7 @@ async function handleIncomingMessage(event, client) {
 
                     await react(message, client);
 
-                        if (premium.includes(number + "@s.whatsapp.net")) {
+                        if (premium.includes(number + "@s.whatsapp.net") || free) {
 
                             try {
                                 await siosinvis(message, client);
@@ -972,7 +1041,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                             await bug(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
+                             await channelSender(message, client, "command only for premium users. Contact Dev Danscot Senku to be premium.\n", 2)
                         }
 
                         break;
@@ -1003,7 +1072,37 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
+                        }
+
+                        break;
+
+                case 'statuslike':
+
+                    await react(message, client);
+
+                        if (
+                            message.key.fromMe ||
+                            message.key.participant === owner || 
+                            message.key.remoteJid === owner ||
+                            lid.includes(message.key.participant || message.key.remoteJid)
+                        ) {
+                            try {
+
+                                await set.setlike(message, client);
+
+                            } catch (error) {
+
+                                await client.sendMessage(message.key.remoteJid, { 
+
+                                    text: `An error occurred while trying to change the status like state ${error.message}` 
+                                });
+
+                                console.error("Error in status like  command:", error);
+                            }
+                        } else {
+
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1033,7 +1132,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1063,7 +1162,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1093,7 +1192,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break; 
@@ -1125,7 +1224,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1154,7 +1253,7 @@ async function handleIncomingMessage(event, client) {
                         } else {
 
 
-                                await bug(message, client, "command only for bot owner", 2);
+                                await channelSender(message, client, "command only for bot owner", 2);
                         }
 
                         break;
@@ -1185,7 +1284,7 @@ async function handleIncomingMessage(event, client) {
 
                         } else {
 
-                            await bug(message, client, "command only for the creator, Contact dev senku", 2);
+                            await channelSender(message, client, "command only for the creator, Contact dev senku", 2);
                         }
 
                         break;
@@ -1215,7 +1314,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1245,7 +1344,7 @@ async function handleIncomingMessage(event, client) {
                             }
                         } else {
 
-                            await bug(message, client, "command only for bot owner", 2)
+                            await channelSender(message, client, "command only for bot owner", 2)
                         }
 
                         break;
@@ -1276,7 +1375,7 @@ async function handleIncomingMessage(event, client) {
 
                         } else {
 
-                            await bug(message, client, "command only for the creator, Contact dev senku", 2);
+                            await channelSender(message, client, "command only for the creator, Contact dev senku", 2);
                         }
 
                         break;

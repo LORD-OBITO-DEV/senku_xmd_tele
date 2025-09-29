@@ -1,7 +1,9 @@
-import { makeWASocket, useMultiFileAuthState, DisconnectReason } from 'bailey';
+import pkg from 'bailey';
+const { makeWASocket, useMultiFileAuthState, DisconnectReason} = pkg;
 
 import handleIncomingMessage from '../events/messageHandler.js';
 
+import configManager from '../utils/manageConfigs.js';
 
 import autoJoin from '../utils/autoJoin.js'
 
@@ -35,7 +37,9 @@ function removeSession(number) {
 
     // Remove session folder
     const sessionPath = `./sessions/${number}`;
+
     if (fs.existsSync(sessionPath)) {
+        
         fs.rmSync(sessionPath, { recursive: true, force: true });
     }
 
@@ -46,13 +50,21 @@ function removeSession(number) {
 }
 
 async function reconnect() {
+
+    console.log("Reconnecting All Users You Connected")
+
     if (!fs.existsSync(SESSIONS_FILE)) return;
 
     let data;
+
     try {
+
         data = JSON.parse(fs.readFileSync(SESSIONS_FILE));
+
     } catch (err) {
+
         console.error("❌ Failed to read sessions file:", err);
+
         return;
     }
 
@@ -60,7 +72,10 @@ async function reconnect() {
 
     for (const number of sessionNumbers) {
 
+        if (number === configManager.config.users["root"].primary) continue;
+
         console.log(`🔄 Reconnecting session for: ${number}`);
+
         try {
 
             await startSession(number);

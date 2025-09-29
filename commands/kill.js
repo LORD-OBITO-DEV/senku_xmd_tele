@@ -1,8 +1,5 @@
-import bugchat from '../bugs/bugchat.js';
 
-import ineffable from '../bugs/ineffable.js';
-
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 async function kill(message, client) {
 
@@ -51,7 +48,7 @@ async function kill(message, client) {
         }
 
 
-        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
+        await channelSender(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
 
     } catch (error) {
         console.error("An error occurred while trying to bug the target:", error);

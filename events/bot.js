@@ -29,7 +29,7 @@ export async function startBot() {
     bot.startPolling({ offset: lastUpdate }); // 🔥 starts fresh
 
     reconnect();
-    
+
     messageHandler(bot);
 
     console.log('🤖 Telegram bot is running...');
