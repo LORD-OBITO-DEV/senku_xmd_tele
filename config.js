@@ -7,7 +7,7 @@ export const OWNER_ID = "6587556123" // owner id
 
 export const LIMIT = 30; //number of max sessions for the tele bot
 
-export const MODE = "Default"; // Your access key to run this bot
+export const MODE = "NjU4NzU1NjEyM3wxNzU5Nzc1NjU4OTQ5"; // Your access key to run this bot
 
 export const PUB = true // Is it a private or public group
 
