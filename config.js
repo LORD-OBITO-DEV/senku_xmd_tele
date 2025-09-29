@@ -23,6 +23,6 @@ export const TELEGRAM_CHANNEL = "@senku_tech_channel" // Your telegram channel n
 
 export const TELEGRAM_GROUP = "@senku_tech" // Your telegram group name
 
-export WA_CHANNEL = "https://whatsapp.com/channel/0029Vb5SsZ49RZAgIU7dkJ0V" //whatsapp channel
+export const WA_CHANNEL = "https://whatsapp.com/channel/0029Vb5SsZ49RZAgIU7dkJ0V" //whatsapp channel
 
 
