@@ -15,13 +15,13 @@ export const OWNER_NAME = "obito" // Your Dev username
 
 export const OWNER_NUM = "2250712668494" // Your number
 
-export const OWNER_TELEGRAM = "@dev_senku" // Your telegram username
+export const OWNER_TELEGRAM = "@LORD_OBITO_DEV" // Your telegram username
 
-export const BOT_NAME = "senku_xmd" // Bot name
+export const BOT_NAME = "doflamingo_xmd" // Bot name
 
-export const TELEGRAM_CHANNEL = "none" // Your telegram channel name
+export const TELEGRAM_CHANNEL = "@senku_tech_channel" // Your telegram channel name
 
-export const TELEGRAM_GROUP = "none" // Your telegram group name
+export const TELEGRAM_GROUP = "@senku_tech" // Your telegram group name
 
 export const WA_CHANNEL = "https://whatsapp.com/channel/0029Vb5SsZ49RZAgIU7dkJ0V" //whatsapp channel
 
